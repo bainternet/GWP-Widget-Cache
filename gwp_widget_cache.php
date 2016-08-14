@@ -3,7 +3,7 @@
 Plugin Name: GWP Widget Cache (Cached!)
 Plugin URI:
 Description: A plugin to cache WordPress Widgets using the Transients API, based on this tutorial http://generatewp.com/?p=10132
-Version: 1.0
+Version: 1.1
 Author: Ohad Raz
 Author URI: http://generatewp.com
 /**
@@ -52,7 +52,11 @@ class GWP_Widget_cache{
     function _cache_widget_output($instance, $widget, $args){
         if ( false === $instance )
             return $instance;
- 
+        
+        //skip cache on preview
+        if ( $widget->is_preview() ){
+            return $instance;
+        }
         //check if we need to cache this widget?
         if(isset($instance['wc_cache']) && $instance['wc_cache'] == true)
             return $instance;
